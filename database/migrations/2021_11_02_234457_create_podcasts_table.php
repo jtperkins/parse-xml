@@ -18,7 +18,7 @@ class CreatePodcastsTable extends Migration
             $table->string('title');
             $table->string('artwork_url');
             $table->string('rss_feed_url');
-            $table->string('description');
+            $table->string('description', 4000);
             $table->string('language')->default('en-us');
             $table->string('website_url');
             $table->timestamps();
