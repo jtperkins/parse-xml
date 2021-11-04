@@ -17,4 +17,9 @@ class Podcast extends Model
         'language',
         'website_url'
     ];
+
+    public function episodes()
+    {
+        return $this->hasMany(Episode::class);
+    }
 }
