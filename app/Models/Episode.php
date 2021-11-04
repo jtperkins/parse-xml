@@ -16,4 +16,9 @@ class Episode extends Model
         'episode_url',
         'podcast_id'
     ];
+
+    public function podcast()
+    {
+        return $this->belongsTo(Podcast::class);
+    }
 }
