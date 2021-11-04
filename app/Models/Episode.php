@@ -13,6 +13,7 @@ class Episode extends Model
         'title',
         'description',
         'audio_url',
-        'episode_url'
+        'episode_url',
+        'podcast_id'
     ];
 }
