@@ -20,7 +20,7 @@ class CreatePodcastsTable extends Migration
             $table->string('rss_feed_url');
             $table->string('description', 4000);
             $table->string('language')->default('en-us');
-            $table->string('website_url');
+            $table->string('website_url')->nullable();
             $table->timestamps();
         });
     }
