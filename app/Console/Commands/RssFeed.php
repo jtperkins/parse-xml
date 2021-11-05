@@ -6,6 +6,7 @@ use App\Jobs\HandleRss;
 use App\Models\Podcast;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class RssFeed extends Command
 {
@@ -49,14 +50,15 @@ class RssFeed extends Command
     {
         $rss_feed = $this->argument('feed');
 
-        if ($rss_feed) $rss_object = @simplexml_load_file($rss_feed);
+        try {
 
-        if ($rss_object) {
+            $rss_object = simplexml_load_file($rss_feed);
 
-            // TODO: logic to check if directory already exists?
-            Storage::makeDirectory('rss');
+            if(!Storage::exists('rss')) Storage::makeDirectory('rss');
+            
+            $title = isset($rss_object->channel->title) && $rss_object->channel->title ? $rss_object->channel->title : Str::uuid();
 
-            $path = storage_path().'/app/rss/'.$rss_object->channel->title.'.xml';
+            $path = storage_path().'/app/rss/'.$title.'.xml';
 
             $rss_object->asXml($path);
 
@@ -64,9 +66,9 @@ class RssFeed extends Command
 
             $this->info('The rss_feed was found and job started.');
 
-        } else {
+        } catch (\Exception $e) {
 
-            $this->error('Uh-oh, no rss feed was found!');
+            $this->error('Uh-oh, there was a problem retrieving the rss feed!');
 
         }
 
