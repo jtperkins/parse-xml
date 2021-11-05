@@ -15,7 +15,7 @@ class CreatePodcastsTable extends Migration
     {
         Schema::create('podcasts', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('title')->nullable();
             $table->string('artwork_url')->nullable();
             $table->string('rss_feed_url');
             $table->string('description', 4000);
