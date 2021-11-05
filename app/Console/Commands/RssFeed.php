@@ -56,13 +56,17 @@ class RssFeed extends Command
 
             if(!Storage::exists('rss')) Storage::makeDirectory('rss');
             
-            $title = isset($rss_object->channel->title) && $rss_object->channel->title ? $rss_object->channel->title : Str::uuid();
+            $title = isset($rss_object->channel->title) && ($rss_object->channel->title != '') ? $rss_object->channel->title : Str::uuid();
 
-            $path = storage_path().'/app/rss/'.$title.'.xml';
+            $relative_path = 'rss/'.$title.'.xml';
 
-            $rss_object->asXml($path);
+            Storage::disk('local')->append('dev.txt', $relative_path);
 
-            HandleRss::dispatch($path, $rss_feed);
+            $fullpath = storage_path().'/app/'.$relative_path;
+
+            $rss_object->asXml($fullpath);
+
+            HandleRss::dispatch($fullpath, $relative_path, $rss_feed);
 
             $this->info('The rss_feed was found and job started.');
 

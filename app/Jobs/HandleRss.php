@@ -14,7 +14,9 @@ class HandleRss implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private $rss_path;
+    private $rss_full_path;
+
+    private $rss_relative_path;
 
     private $rss_url;
 
@@ -23,9 +25,11 @@ class HandleRss implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($rss_path, $rss_url)
+    public function __construct($rss_full_path, $rss_relative_path, $rss_url)
     {
-        $this->rss_path = $rss_path;
+        $this->rss_full_path = $rss_full_path;
+
+        $this->rss_relative_path = $rss_relative_path;
 
         $this->rss_url = $rss_url;
     }
@@ -37,8 +41,8 @@ class HandleRss implements ShouldQueue
      */
     public function handle()
     {
-        Rss::Parse(simplexml_load_file($this->rss_path), $this->rss_url);
+        Rss::Parse(simplexml_load_file($this->rss_full_path), $this->rss_url);
 
-        Storage::delete($this->rss_path);
+        Storage::delete($this->rss_relative_path);
     }
 }
