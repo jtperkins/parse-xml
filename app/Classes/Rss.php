@@ -11,11 +11,11 @@ class Rss
 {
     public static function Parse(SimpleXMLElement $rss_object, string $rss_url)
     {
-        if ($podcast = Podcast::where('title', $rss_object->channel->title)->first()) {
+        if ($podcast = Podcast::firstWhere(['rss_feed_url' => $rss_url])) {
 
             $podcast->update([
-                'artwork_url' => $rss_object->channel->image->url,
-                'description' => $rss_object->channel->description,
+                'artwork_url' => isset($rss_object->channel->image->url) ? $rss_object->channel->image->url : null,
+                'description' => isset($rss_object->channel->description) ? $rss_object->channel->description : null,
                 'website_url' => isset($rss_object->channel->link) ? $rss_object->channel->link : null
             ]);
 
@@ -25,9 +25,9 @@ class Rss
 
             $podcast = Podcast::create([
                 'title' => $rss_object->channel->title,
-                'artwork_url' => $rss_object->channel->image->url,
+                'artwork_url' => isset($rss_object->channel->image->url) ? $rss_object->channel->image->url : null,
                 'rss_feed_url' => $rss_url,
-                'description' => $rss_object->channel->description,
+                'description' => isset($rss_object->channel->description) ? $rss_object->channel->description : null,
                 'language' => $rss_object->channel->language,
                 'website_url' => isset($rss_object->channel->link) ? $rss_object->channel->link : null
             ]);
