@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Classes\Rss;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use SimpleXMLElement;
 use Tests\TestCase;
 
 class RssTest extends TestCase
@@ -33,7 +34,7 @@ class RssTest extends TestCase
         ];
 
         foreach ($test_rss_urls as $rss) {
-            Rss::Parse(simplexml_load_file($rss), $rss);
+            Rss::Parse(@simplexml_load_file($rss) ?: null, $rss);
         }
     }
 }
