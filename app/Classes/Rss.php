@@ -24,7 +24,7 @@ class Rss
         } else {
 
             $podcast = Podcast::create([
-                'title' => $rss_object->channel->title,
+                'title' => isset($rss_object->channel->title) ? $rss_object->channel->title : null,
                 'artwork_url' => isset($rss_object->channel->image->url) ? $rss_object->channel->image->url : null,
                 'rss_feed_url' => $rss_url,
                 'description' => isset($rss_object->channel->description) ? $rss_object->channel->description : null,
