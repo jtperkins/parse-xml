@@ -16,7 +16,6 @@ class Rss
             $podcast->update([
                 'artwork_url' => $rss_object->channel->image->url,
                 'description' => $rss_object->channel->description,
-                'language' => $rss_object->channel->language,
                 'website_url' => isset($rss_object->channel->link) ? $rss_object->channel->link : null
             ]);
 
