@@ -22,8 +22,6 @@ class Rss
                 'website_url' => isset($rss_object->channel->link) ? $rss_object->channel->link : null
             ]);
 
-            static::_parse_items($rss_object, $podcast);
-
         } else {
 
             $podcast = Podcast::create([
@@ -35,9 +33,9 @@ class Rss
                 'website_url' => isset($rss_object->channel->link) ? $rss_object->channel->link : null
             ]);
 
-            static::_parse_items($rss_object, $podcast);
-
         }
+
+        static::_parse_items($rss_object, $podcast);
     }
 
     public static function _parse_items(SimpleXMLElement $rss_object, Podcast $podcast)
