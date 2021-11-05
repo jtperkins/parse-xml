@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Classes\RssParser;
+use App\Classes\Rss;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -37,7 +37,7 @@ class HandleRss implements ShouldQueue
      */
     public function handle()
     {
-        RssParser::Parse(simplexml_load_file($this->rss_path), $this->rss_url);
+        Rss::Parse(simplexml_load_file($this->rss_path), $this->rss_url);
 
         Storage::delete($this->rss_path);
     }
